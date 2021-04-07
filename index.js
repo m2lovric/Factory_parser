@@ -15,14 +15,14 @@ const getData = async () => {
     const brackets = [];
 
     for (let i in text) {
+      i === "0" && text[i] !== "{" ? brackets.push(-1) : ""; //set first location to -1 if there is no obj bracket on beginning of text
       if (text[i] === "{") {
-        i === 0 ? "" : brackets.push(-1);
         brackets.push(i);
       }else if (text[i] === "}") {
         brackets.push(i);
       }
     }
-
+    console.log(brackets);
     return brackets;
   }
 
@@ -30,7 +30,7 @@ const getData = async () => {
     const brackets = bracketLocation(text);
     const parts = [];
 
-    for (let i = 0; i < brackets.length; i+=2) {
+    for (let i = 0; i < brackets.length - 2; i+=2) {
       let num = i;
 
       const first = parseInt(brackets[num]);
