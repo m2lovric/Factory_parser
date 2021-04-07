@@ -28,7 +28,7 @@ const getData = async () => {
     return brackets;
   }
 
-  const getObjects = (text) => {
+  const getParts = (text) => {
     const brackets = bracketLocation(text);
     const parts = [];
 
@@ -51,7 +51,7 @@ const getData = async () => {
   }
 
   const splitObjTxt = (text) => {
-    const parts = getObjects(text);
+    const parts = getParts(text);
     const closingTags = [];
 
     parts.map((el, i) => {
