@@ -27,28 +27,29 @@ const getData = async () => {
 
   const getObjects = (text) => {
     const brackets = bracketLocation(text);
-    const objArr = [];
-    console.log(brackets);
+    const parts = [];
 
     for (let i = 0; i < brackets.length; i+=2) {
       let num = i;
-      console.log("i", i);
+
       const first = parseInt(brackets[num]);
       const second = parseInt(brackets[num += 1]);
-      console.log("first ",first);
-      console.log("second ",second);
-
-      objArr.push({
-        type: text.slice(first + 1, second),
-        content: text.slice(second + 1, parseInt(brackets[num+=1]))
-      });
+      
+      parts.push(text.slice(first + 1, second));
+      parts.push(text.slice(second + 1, parseInt(brackets[num += 1])));
     }
-
-    return objArr;
+    
+    return parts;
   }
 
-  getObjects(text);
-  console.log(getObjects(text));
+  const removeClosingTags = (text) => {
+    const parts = getObjects(text);
+    console.log(parts);
+    const filteredParts = parts.filter(el => el[0] !== "/");
+    console.log(filteredParts);
+  }
+
+  removeClosingTags(text);
 }
 
 getData();
