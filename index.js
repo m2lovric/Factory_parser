@@ -1,7 +1,7 @@
 const getData = async () => {
   let text;
 
-  await fetch('primjer1.txt')
+  await fetch('primjer2.txt')
     .then(res => {
       return res.text();
     })
@@ -16,6 +16,7 @@ const getData = async () => {
 
     for (let i in text) {
       if (text[i] === "{") {
+        i === 0 ? "" : brackets.push(-1);
         brackets.push(i);
       }else if (text[i] === "}") {
         brackets.push(i);
@@ -38,7 +39,7 @@ const getData = async () => {
       parts.push(text.slice(first + 1, second));
       parts.push(text.slice(second + 1, parseInt(brackets[num += 1])));
     }
-    
+
     return parts;
   }
 
