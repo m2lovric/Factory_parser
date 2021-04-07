@@ -1,5 +1,7 @@
 const getData = async () => {
   let text;
+  let objectsArr = [];
+  let textsArr = [];
 
   await fetch('primjer2.txt')
     .then(res => {
@@ -43,14 +45,37 @@ const getData = async () => {
     return parts;
   }
 
-  const removeClosingTags = (text) => {
-    const parts = getObjects(text);
-    console.log(parts);
-    const filteredParts = parts.filter(el => el[0] !== "/");
-    console.log(filteredParts);
+  const removeClosingTags = (parts) => {
+    textsArr = parts.filter(el => el[0] !== "/");
+    console.log(textsArr);
   }
 
-  removeClosingTags(text);
+  const splitObjTxt = (text) => {
+    const parts = getObjects(text);
+    const closingTags = [];
+
+    parts.map((el, i) => {
+      if (el[0] === "/") {
+        closingTags.push(i - 2);
+        closingTags.push(i - 1);
+        
+      } else if (el[el.length - 1] === "/") {
+        closingTags.push(i);
+      }
+    });
+
+    parts.map((el, i) => {
+      closingTags.includes(i) ? objectsArr.push(el) : textsArr.push(el);
+    })
+
+    console.log(closingTags);
+    console.log(objectsArr);
+    console.log(textsArr);
+
+    removeClosingTags(textsArr);
+  }
+
+  splitObjTxt(text);
 }
 
 getData();
