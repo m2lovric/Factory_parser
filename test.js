@@ -53,19 +53,25 @@
 
   for (let i = 0; i < parts.length; i++) {
     let num = i;
+    console.log(parts);
     if (parts[num] === "{" && parts[num + 2] === "}") {
       if (parts[num + 1].endsWith("/")) {
         elWithAttributes(parts, num);
-      } else if (parts[num + 1].startsWith("/")) {
-        parts[num + 3] === undefined ? '' : objectsArr.push({ type: "text", content: parts[num + 3] });
+        parts[num + 3] === undefined ? '' : objectsArr.push({ type: "text", content: parts[num + 3] });        
+
+      } else if (parts[num + 1].startsWith("/")) {    
+        parts[num + 3] === undefined ? '' : objectsArr.push({ type: "text", content: parts[num + 3] });        
+
       } else {
         if (parts[num + 1].includes("=")) {
           elWithAttributes(parts, num);
+
         } else {
           objectsArr.push({ type: parts[num + 1], content: parts[num + 3] });
+
         }
       }
-    }    
+    }
   }
 
   console.log(objectsArr);
