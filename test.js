@@ -25,8 +25,10 @@
     }
 
     //spliting elements with attributes
-    const elWithAttributes = (parts, num) => {
+    const elWithAttributes = (parts, num, additional) => {
       const elWithAtt = parts[num + 1];
+      let content = '';
+      let obj;
 
       let elements = elWithAtt.split('=');
       const attributes = [elements[1]];
@@ -35,10 +37,19 @@
       const type = leftSide[0];
       attributes.unshift(leftSide[1]);
 
-      const obj = {
-        type,
-        attributes: {}
-      };
+      if (additional) {
+        content = parts[num + 3];
+        obj = {
+          type,
+          content,
+          attributes: {}
+        };
+      } else {
+        obj = {
+          type,
+          attributes: {}
+        };
+      }
 
       for (let i = 0; i < attributes.length; i += 2) {
         let num = i;
@@ -51,7 +62,7 @@
 
       objectsArr.push(obj);
     }
-
+    
     for (let i = 0; i < parts.length; i++) {
       let num = i;
       if (parts[num] === "{" && parts[num + 2] === "}") {
@@ -63,10 +74,13 @@
           parts[num + 3] === undefined ? '' : objectsArr.push({ type: "text", content: parts[num + 3] });
 
         } else {
-          if (parts[num + 1].includes("=")) {
+          if (parts[num + 1].includes("=") && parts[num + 1].endsWith("/")) {
             elWithAttributes(parts, num);
 
-          } else {
+          } else if (parts[num + 1].includes("=")){
+            elWithAttributes(parts, num, true);
+          }
+          else {
             objectsArr.push({ type: parts[num + 1], content: parts[num + 3] });
 
           }
